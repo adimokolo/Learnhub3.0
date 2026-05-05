@@ -1,18 +1,14 @@
 name: Deploy Learnhub3.0 to EC2
-
 on:
   push:
     branches:
       - main
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-
+        uses: actions/checkout@v4
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@master
         with:
@@ -25,4 +21,4 @@ jobs:
             docker stop learnhub || true
             docker rm learnhub || true
             docker build -t learnhub .
-            docker run -d --name learnhub -p 4000:4000 learnhub
+            docker run -d --name learnhub -p 4000:4000 --add-host=host.docker.internal:host-gateway learnhub

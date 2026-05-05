@@ -1,0 +1,20 @@
+{
+  "name": "learnhub-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "learnhub.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "connect-redis": "^9.0.0",
+    "express-session": "^1.19.0",
+    "pg": "^8.20.0",
+    "redis": "^5.12.1"
+  }
+}

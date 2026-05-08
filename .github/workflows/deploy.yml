@@ -16,10 +16,12 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            cd /var/www/learnhub-app
-            git pull origin main
-            docker stop learnhub || true
-            docker rm learnhub || true
-            docker build -t learnhub .
-            docker run -d --name learnhub -p 4000:4000 --add-host=host.docker.internal:host-gateway learnhub
-            docker push abua03/learnhub:v3.0
+  cd /var/www/learnhub-app
+  git pull origin main
+  docker stop learnhub || true
+  docker rm learnhub || true
+  docker build -t abua03/learnhubv:3.0 .
+  docker push abua03/learnhubv:3.0
+  docker run -d --name learnhub -p 4000:4000 \
+    --add-host=host.docker.internal:host-gateway \
+    abua03/learnhubv:3.0

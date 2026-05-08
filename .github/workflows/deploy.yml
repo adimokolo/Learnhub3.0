@@ -22,3 +22,4 @@ jobs:
             docker rm learnhub || true
             docker build -t learnhub .
             docker run -d --name learnhub -p 4000:4000 --add-host=host.docker.internal:host-gateway learnhub
+            docker push abua03/learnhub:v3.0

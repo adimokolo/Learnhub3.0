@@ -1212,10 +1212,10 @@ const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&display=swap');
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   :root{
-    --bg:#060810;--surface:#0d1117;--card:#131a26;--card2:#1a2235;
-    --accent:#4f9cf9;--accent2:#a78bfa;--green:#34d399;
+   --bg:#0f172a;--surface:#1e293b;--card:#1e3a5f;--card2:#263d5e;
+    --accent:#38bdf8;--accent2:#818cf8;--green:#34d399;
     --gold:#fbbf24;--red:#f87171;--text:#e2e8f0;
-    --muted:#64748b;--border:rgba(255,255,255,0.06);--border2:rgba(79,156,249,0.2);
+    --muted:#94a3b8;--border:rgba(255,255,255,0.08);--border2:rgba(56,189,248,0.25);
   }
   html{scroll-behavior:smooth;}
   body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}

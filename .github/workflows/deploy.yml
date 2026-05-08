@@ -1,14 +1,18 @@
 name: Deploy Learnhub3.0 to EC2
+
 on:
   push:
     branches:
       - main
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@master
         with:
@@ -17,9 +21,9 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script: |
             cd /var/www/learnhub-app
-            git pull origin main
+            git pull https://adimokolo:${{ secrets.GIT_TOKEN }}@github.com/adimokolo/Learnhub3.0.git main
             docker stop learnhub || true
             docker rm learnhub || true
-            docker build -t learnhub .
-            docker run -d --name learnhub -p 4000:4000 --add-host=host.docker.internal:host-gateway learnhub
-            docker push abua03/learnhub:v3.0
+            docker build -t abua03/learnhubv:3.0 .
+            docker push abua03/learnhubv:3.0
+            docker run -d --name learnhub -p 4000:4000 --add-host=host.docker.internal:host-gateway abua03/learnhubv:3.0

@@ -1211,39 +1211,65 @@ function parseBody(req) {
 const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&display=swap');
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+  /* ── LIGHT MODE (default) ── */
   :root{
-    --bg:#060810;--surface:#0d1117;--card:#131a26;--card2:#1a2235;
-    --accent:#4f9cf9;--accent2:#a78bfa;--green:#34d399;
-    --gold:#fbbf24;--red:#f87171;--text:#e2e8f0;
-    --muted:#64748b;--border:rgba(255,255,255,0.06);--border2:rgba(79,156,249,0.2);
+    --bg:#f0f4f8;--surface:#ffffff;--card:rgba(255,255,255,0.75);--card2:rgba(241,245,249,0.9);
+    --accent:#0284c7;--accent2:#7c3aed;--green:#059669;
+    --gold:#d97706;--red:#dc2626;--text:#0f172a;
+    --muted:#64748b;--border:rgba(0,0,0,0.08);--border2:rgba(2,132,199,0.3);
+    --nav-bg:rgba(240,244,248,0.92);--shadow:0 4px 24px rgba(0,0,0,0.08);
+    --code-bg:rgba(2,132,199,0.06);--lesson-bg:rgba(255,255,255,0.6);
   }
+
+  /* ── DARK MODE ── */
+  body.dark{
+    --bg:#050810;--surface:rgba(255,255,255,0.03);--card:rgba(255,255,255,0.05);--card2:rgba(255,255,255,0.08);
+    --accent:#00d4ff;--accent2:#a78bfa;--green:#34d399;
+    --gold:#fbbf24;--red:#f87171;--text:#e2e8f0;
+    --muted:#94a3b8;--border:rgba(255,255,255,0.07);--border2:rgba(0,212,255,0.25);
+    --nav-bg:rgba(5,8,16,0.92);--shadow:0 4px 24px rgba(0,0,0,0.4);
+    --code-bg:rgba(0,212,255,0.06);--lesson-bg:rgba(255,255,255,0.03);
+  }
+
   html{scroll-behavior:smooth;}
-  body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
-  body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(79,156,249,0.04) 0%,transparent 70%);pointer-events:none;z-index:0;}
-  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(6,8,16,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+  body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background 0.3s,color 0.3s;}
+  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(2,132,199,0.06) 0%,transparent 70%);pointer-events:none;z-index:0;}
+  body.dark::before{background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(0,212,255,0.04) 0%,transparent 70%);}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background 0.3s;}
   .logo{font-family:'Instrument Serif',serif;font-size:1.6rem;color:var(--text);text-decoration:none;letter-spacing:-0.5px;}
   .logo span{color:var(--accent);font-style:italic;}
   nav ul{display:flex;gap:0.25rem;list-style:none;}
   nav a{color:var(--muted);text-decoration:none;font-size:0.85rem;font-weight:600;padding:0.5rem 1rem;border-radius:8px;transition:all 0.2s;}
   nav a:hover,nav a.active{color:var(--text);background:var(--card);}
   .nav-auth{display:flex;gap:0.75rem;align-items:center;}
+
+  /* ── DARK/LIGHT TOGGLE ── */
+  .theme-toggle{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.4rem 0.85rem;font-size:0.78rem;font-weight:700;cursor:pointer;color:var(--muted);font-family:'Syne',sans-serif;transition:all 0.2s;letter-spacing:0.5px;}
+  .theme-toggle:hover{color:var(--text);border-color:var(--border2);}
+
   .btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.6rem 1.4rem;border-radius:8px;font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;transition:all 0.2s;text-decoration:none;border:none;letter-spacing:0.3px;}
-  .btn-primary{background:var(--accent);color:#fff;box-shadow:0 4px 16px rgba(79,156,249,0.3);}
-  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(79,156,249,0.4);}
+  .btn-primary{background:var(--accent);color:#fff;box-shadow:0 4px 16px rgba(2,132,199,0.25);}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(2,132,199,0.35);}
+  body.dark .btn-primary{box-shadow:0 4px 16px rgba(0,212,255,0.2);}
+  body.dark .btn-primary:hover{box-shadow:0 6px 24px rgba(0,212,255,0.3);}
   .btn-outline{background:transparent;color:var(--text);border:1px solid var(--border2);}
   .btn-outline:hover{background:var(--card);}
   .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border);}
   .btn-ghost:hover{color:var(--text);border-color:var(--border2);}
   .btn-sm{padding:0.4rem 0.9rem;font-size:0.78rem;}
-  .btn-green{background:var(--green);color:#000;}
+  .btn-green{background:var(--green);color:#fff;}
   .btn-green:hover{transform:translateY(-1px);}
+
   .page{padding-top:5rem;min-height:100vh;position:relative;z-index:1;}
   .container{max-width:1200px;margin:0 auto;padding:0 2.5rem;}
   .section-label{font-size:0.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem;}
   .section-title{font-family:'Instrument Serif',serif;font-size:clamp(2rem,4vw,3rem);letter-spacing:-1px;margin-bottom:2.5rem;line-height:1.1;}
   .tag{display:inline-block;font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:0.25rem 0.65rem;border-radius:4px;margin-bottom:0.75rem;}
+
   footer{background:var(--surface);border-top:1px solid var(--border);padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;font-size:0.8rem;color:var(--muted);position:relative;z-index:1;}
-  .server-badge{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:0.6rem 1rem;font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--muted);z-index:200;display:flex;align-items:center;gap:0.5rem;}
+  .server-badge{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:0.6rem 1rem;font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--muted);z-index:200;display:flex;align-items:center;gap:0.5rem;backdrop-filter:blur(10px);box-shadow:var(--shadow);}
   .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
   @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
@@ -1251,16 +1277,31 @@ const CSS = `
   .fade-up-1{animation:fadeUp 0.5s 0.1s ease both;}
   .fade-up-2{animation:fadeUp 0.5s 0.2s ease both;}
   .fade-up-3{animation:fadeUp 0.5s 0.3s ease both;}
+
   input,textarea{font-family:'Syne',sans-serif;}
   .form-group{display:flex;flex-direction:column;gap:0.5rem;}
   .form-label{font-size:0.78rem;font-weight:700;color:var(--muted);letter-spacing:0.5px;text-transform:uppercase;}
-  .form-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0.85rem 1rem;color:var(--text);font-size:0.9rem;outline:none;transition:border-color 0.2s;}
+  .form-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0.85rem 1rem;color:var(--text);font-size:0.9rem;outline:none;transition:border-color 0.2s,background 0.3s;}
   .form-input:focus{border-color:var(--border2);}
+
   .alert{padding:0.85rem 1rem;border-radius:10px;font-size:0.85rem;margin-bottom:1.5rem;}
-  .alert-error{background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);color:var(--red);}
-  .alert-success{background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.2);color:var(--green);}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;}
-  .lock-banner{background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.2);border-radius:14px;padding:2.5rem;text-align:center;}
+  .alert-error{background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);color:var(--red);}
+  .alert-success{background:rgba(5,150,105,0.08);border:1px solid rgba(5,150,105,0.2);color:var(--green);}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;backdrop-filter:blur(12px);box-shadow:var(--shadow);}
+  .lock-banner{background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.15);border-radius:14px;padding:2.5rem;text-align:center;}
+
+  /* ── LESSON CONTENT FORMATTING ── */
+  .lesson-body{font-size:0.9rem;color:var(--muted);line-height:1.9;}
+  .lesson-block{margin-bottom:1.5rem;}
+  .lesson-heading{font-size:0.7rem;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border2);}
+  .lesson-para{margin-bottom:0.9rem;color:var(--muted);line-height:1.85;}
+  .lesson-code-line{display:block;padding:0.35rem 0.75rem 0.35rem 1rem;border-left:2px solid var(--border2);margin-bottom:0.3rem;font-family:'DM Mono',monospace;font-size:0.82rem;background:var(--code-bg);border-radius:0 6px 6px 0;color:var(--text);}
+
+  /* ── RESOURCE CARDS ── */
+  .resource-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;transition:all 0.25s;cursor:pointer;text-decoration:none;color:inherit;backdrop-filter:blur(12px);box-shadow:var(--shadow);}
+  .resource-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,0.12);}
+  body.dark .resource-card:hover{box-shadow:0 12px 32px rgba(0,0,0,0.4);}
+
   @media(max-width:768px){nav{padding:1rem 1.25rem;}nav ul{display:none;}.container{padding:0 1.25rem;}.stats-float{display:none!important;}footer{flex-direction:column;gap:0.5rem;text-align:center;}}
 `;
 
@@ -1276,11 +1317,28 @@ function navBar(active, loggedIn, username) {
       ${loggedIn?`<li><a href="/dashboard" class="${active==='dashboard'?'active':''}">Dashboard</a></li>`:''}
     </ul>
     <div class="nav-auth">
+      <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()">Dark</button>
       ${loggedIn
         ? `<span style="color:var(--muted);font-size:0.82rem;">👋 ${username}</span><a href="/logout" class="btn btn-ghost">Logout</a>`
         : `<a href="/login" class="btn btn-ghost">Sign In</a><a href="/register" class="btn btn-primary">Register</a>`}
     </div>
-  </nav>`;
+  </nav>
+  <script>
+    (function(){
+      const saved = localStorage.getItem('lh-theme');
+      if(saved === 'dark'){ document.body.classList.add('dark'); }
+      document.addEventListener('DOMContentLoaded', function(){
+        const btn = document.getElementById('themeBtn');
+        if(btn) btn.textContent = document.body.classList.contains('dark') ? 'Light' : 'Dark';
+      });
+    })();
+    function toggleTheme(){
+      const isDark = document.body.classList.toggle('dark');
+      localStorage.setItem('lh-theme', isDark ? 'dark' : 'light');
+      const btn = document.getElementById('themeBtn');
+      if(btn) btn.textContent = isDark ? 'Light' : 'Dark';
+    }
+  </script>`;
 }
 
 function shell(title, body, active, loggedIn, username) {
@@ -1452,7 +1510,19 @@ function lessonsPage(course, lessons, loggedIn, username) {
             <!-- Content (hidden by default) -->
             <div id="lesson-content-${i}" style="display:none;padding:0 1.5rem 1.5rem;border-top:1px solid var(--border);">
               <div style="height:1rem;"></div>
-              <div style="font-size:0.9rem;color:var(--muted);line-height:1.8;">${l.content}</div>
+              <div class="lesson-body">${(()=>{
+                const blocks = l.content.split('\n\n');
+                return blocks.map(block => {
+                  const lines = block.split('\n');
+                  const firstLine = lines[0].trim();
+                  const isHeading = firstLine === firstLine.toUpperCase() && firstLine.length > 2 && !/[a-z]/.test(firstLine);
+                  if(isHeading && lines.length > 1){
+                    const codeLines = lines.slice(1).filter(ln => ln.trim());
+                    return '<div class="lesson-block"><div class="lesson-heading">'+firstLine+'</div>'+codeLines.map(ln=>'<span class="lesson-code-line">'+ln.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</span>').join('')+'</div>';
+                  }
+                  return '<p class="lesson-para">'+block.replace(/\n/g,' ')+'</p>';
+                }).join('');
+              })()}</div>
               <div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
                 <span style="font-size:0.75rem;color:var(--muted);">Lesson ${i+1} of ${lessons.length}</span>
                 ${i < lessons.length-1
@@ -1612,14 +1682,14 @@ function quizPage(loggedIn, username) {
 // ─── PAGE: RESOURCES ──────────────────────────────────────────────────────────
 function resourcesPage(loggedIn, username) {
   const items = [
-    {icon:'📘',title:'Linux Command Reference',type:'Cheat Sheet · PDF',cat:'Linux'},
-    {icon:'🎥',title:'AWS EC2 Deep Dive',type:'Video Series · 3h 20m',cat:'AWS'},
-    {icon:'🔷',title:'Azure VM Quickstart Guide',type:'Documentation',cat:'Azure'},
-    {icon:'🐳',title:'Docker Official Docs',type:'Reference · Online',cat:'Docker'},
-    {icon:'📝',title:'Cron Expression Builder',type:'Interactive Tool',cat:'DevOps'},
-    {icon:'🔐',title:'SSH Security Hardening Guide',type:'Article · 15 min',cat:'Security'},
-    {icon:'⚡',title:'Node.js Best Practices',type:'GitHub Repo',cat:'Node.js'},
-    {icon:'☁️',title:'Azure vs AWS Comparison',type:'Reference Guide',cat:'Cloud'},
+    {icon:'📘',title:'Linux Command Reference',type:'Cheat Sheet · PDF',cat:'Linux',url:'https://linuxcommand.org/lc3_learning_the_shell.php'},
+    {icon:'🎥',title:'AWS EC2 Deep Dive',type:'Video Series · 3h 20m',cat:'AWS',url:'https://docs.aws.amazon.com/ec2/'},
+    {icon:'🔷',title:'Azure VM Quickstart Guide',type:'Documentation',cat:'Azure',url:'https://learn.microsoft.com/en-us/azure/virtual-machines/'},
+    {icon:'🐳',title:'Docker Official Docs',type:'Reference · Online',cat:'Docker',url:'https://docs.docker.com/'},
+    {icon:'📝',title:'Cron Expression Builder',type:'Interactive Tool',cat:'DevOps',url:'https://crontab.guru/'},
+    {icon:'🔐',title:'SSH Security Hardening Guide',type:'Article · 15 min',cat:'Security',url:'https://www.ssh.com/academy/ssh/security'},
+    {icon:'⚡',title:'Node.js Best Practices',type:'GitHub Repo',cat:'Node.js',url:'https://github.com/goldbergyoni/nodebestpractices'},
+    {icon:'☁️',title:'Azure vs AWS Comparison',type:'Reference Guide',cat:'Cloud',url:'https://cloudprice.net/'},
   ];
   return shell('Resources', `
   <div class="page">
@@ -1629,15 +1699,15 @@ function resourcesPage(loggedIn, username) {
         <div class="section-title">Curated Resources</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem;">
           ${items.map(r=>`
-          <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;transition:border-color 0.2s;cursor:pointer;"
-            onmouseover="this.style.borderColor='var(--border2)'" onmouseout="this.style.borderColor='var(--border)'">
+          <a href="${r.url}" target="_blank" rel="noopener noreferrer" class="resource-card">
             <div style="font-size:2rem;flex-shrink:0;">${r.icon}</div>
             <div>
-              <div style="font-weight:700;margin-bottom:0.3rem;font-size:0.92rem;">${r.title}</div>
-              <div style="font-size:0.75rem;color:var(--muted);">${r.type}</div>
-              <span style="display:inline-block;margin-top:0.5rem;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:0.2rem 0.5rem;border-radius:4px;background:rgba(79,156,249,0.08);color:var(--accent);">${r.cat}</span>
+              <div style="font-weight:700;margin-bottom:0.3rem;font-size:0.92rem;color:var(--text);">${r.title}</div>
+              <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem;">${r.type}</div>
+              <span style="display:inline-block;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:0.2rem 0.5rem;border-radius:4px;background:rgba(2,132,199,0.08);color:var(--accent);">${r.cat}</span>
+              <span style="display:inline-block;margin-left:0.4rem;font-size:0.65rem;color:var(--muted);">↗ Open</span>
             </div>
-          </div>`).join('')}
+          </a>`).join('')}
         </div>
       </div>
     </section>

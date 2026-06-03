@@ -31,6 +31,8 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script: |
             docker pull abua03/learnhub:latest
+            docker stop lms 2>/dev/null || true
+            docker rm -f lms 2>/dev/null || true
             docker stop learnhub 2>/dev/null || true
             docker rm -f learnhub 2>/dev/null || true
             docker run -d --name learnhub -p 4000:4000 \
